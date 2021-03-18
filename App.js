@@ -1,37 +1,25 @@
-import React, {useState, useEffect} from 'react';
-import {
-  Text,
-  SafeAreaView,
-  StatusBar,
-  FlatList,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import React, {useState} from 'react';
+import {Text, SafeAreaView, StatusBar, FlatList} from 'react-native';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
-import {addTodo, getTodosFromRealm} from './src/realm/todos.realm';
-
+import {addTodo, getTodosFromRealm, deleteTodo} from './src/realm/todos.realm';
 const App = () => {
   const [todoItems, setTodoItems] = useState(getTodosFromRealm());
-
   // Add a new item to the state
   function addTodoItem(_text) {
     addTodo({text: _text, complete: false});
     setTodoItems(getTodosFromRealm());
   }
-
   // Delete an item from state by index
-  function deleteTodoItem(_index) {
-    let tempArr = [...todoItems];
-    tempArr.splice(_index, 1);
+  function deleteTodoItem(id) {
+    deleteTodo(id);
+    setTodoItems(getTodosFromRealm());
   }
-
   // Function to set completed to true by index.
   function completeTodoItem(_index) {
     let tempArr = [...todoItems];
     tempArr[_index].completed = true;
   }
-
   // Render
   return (
     <>
@@ -46,7 +34,7 @@ const App = () => {
             return (
               <TodoItem
                 item={item}
-                deleteFunction={() => deleteTodoItem(index)}
+                deleteFunction={() => deleteTodoItem(item.id)}
                 completeFunction={() => completeTodoItem(index)}
               />
             );
@@ -57,5 +45,4 @@ const App = () => {
     </>
   );
 };
-
 export default App;

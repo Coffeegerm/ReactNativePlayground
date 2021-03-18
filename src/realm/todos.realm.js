@@ -1,5 +1,4 @@
 import Realm from 'realm';
-
 export const TodoSchema = {
   name: 'Todo',
   properties: {
@@ -9,7 +8,6 @@ export const TodoSchema = {
   },
   primaryKey: 'id',
 };
-
 const realmInstance = new Realm({
   path: 'todos',
   schema: [TodoSchema],
@@ -20,11 +18,9 @@ const realmInstance = new Realm({
     }
   },
 });
-
 export const getTodosFromRealm = () => {
   return realmInstance.objects('Todo');
 };
-
 export const addTodo = todo => {
   try {
     const latestTodo = realmInstance.objects('Todo').sorted('id', true)[0];
@@ -40,5 +36,19 @@ export const addTodo = todo => {
   } catch (err) {
     console.error(err);
     realmInstance.cancelTransaction();
+  }
+};
+export const deleteTodo = id => {
+  let toDo = realmInstance.objectForPrimaryKey('Todo', id);
+  console.error(toDo);
+  try {
+    realmInstance.beginTransaction();
+    realmInstance.delete(toDo);
+    realmInstance.commitTransaction();
+  } catch (err) {
+    // console.error(err);
+    realmInstance.cancelTransaction();
+  } finally {
+    toDo = null;
   }
 };
