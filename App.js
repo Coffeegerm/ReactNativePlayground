@@ -12,11 +12,12 @@ import TodoItem from './TodoItem';
 import {addTodo, getTodosFromRealm} from './src/realm/todos.realm';
 
 const App = () => {
-  const todoItems = getTodosFromRealm();
+  const [todoItems, setTodoItems] = useState(getTodosFromRealm());
 
   // Add a new item to the state
   function addTodoItem(_text) {
     addTodo({text: _text, complete: false});
+    setTodoItems(getTodosFromRealm());
   }
 
   // Delete an item from state by index
