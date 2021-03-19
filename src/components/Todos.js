@@ -30,7 +30,7 @@ const Todos = props => {
         }}>
         <Text style={{fontSize: 36, fontWeight: 'bold'}}>Todo</Text>
         <FlatList
-          data={props.todos()}
+          data={props.todos}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item, index}) => {
             return (
