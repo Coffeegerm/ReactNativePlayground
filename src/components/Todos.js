@@ -9,22 +9,15 @@ import {todosSelector} from '../redux/rootStore';
 
 const Todos = props => {
   console.log(props.todos());
-  const [todoItems, setTodoItems] = useState(getTodosFromRealm());
   // Add a new item to the state
   function addTodoItem(_text) {
     addTodo({text: _text, complete: false});
   }
-  // Delete an item from state by index
+
   function deleteTodoItem(id) {
     deleteTodo(id);
-    setTodoItems(getTodosFromRealm());
   }
-  // Function to set completed to true by index.
-  function completeTodoItem(_index) {
-    let tempArr = [...todoItems];
-    tempArr[_index].completed = true;
-  }
-  // Render
+
   return (
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={'#212121'} />
@@ -44,7 +37,7 @@ const Todos = props => {
               <TodoItem
                 item={item}
                 deleteFunction={() => deleteTodoItem(item.id)}
-                completeFunction={() => completeTodoItem(index)}
+                completeFunction={() => {}}
               />
             );
           }}

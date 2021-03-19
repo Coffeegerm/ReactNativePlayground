@@ -14,7 +14,8 @@ const todosReducer = (state = [], action) => {
 };
 
 export const todosSelector = () => {
-  return createSelector([() => getTodosFromRealm()], todos => todos);
+  const todosFromRealmSelector = () => getTodosFromRealm();
+  return createSelector([todosFromRealmSelector], todos => todos);
 };
 
 export const rootStore = createStore(combineReducers({todos: todosReducer}));
