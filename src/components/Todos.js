@@ -8,8 +8,6 @@ import {createStructuredSelector} from 'reselect';
 import {todosSelector} from '../redux/rootStore';
 
 const Todos = props => {
-  console.log(props.todos());
-  const [todoItems, setTodoItems] = useState(getTodosFromRealm());
   // Add a new item to the state
   function addTodoItem(_text) {
     addTodo({text: _text, complete: false});
@@ -17,13 +15,8 @@ const Todos = props => {
   // Delete an item from state by index
   function deleteTodoItem(id) {
     deleteTodo(id);
-    setTodoItems(getTodosFromRealm());
   }
-  // Function to set completed to true by index.
-  function completeTodoItem(_index) {
-    let tempArr = [...todoItems];
-    tempArr[_index].completed = true;
-  }
+
   // Render
   return (
     <>
@@ -37,14 +30,14 @@ const Todos = props => {
         }}>
         <Text style={{fontSize: 36, fontWeight: 'bold'}}>Todo</Text>
         <FlatList
-          data={props.todos()}
+          data={props.todos}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item, index}) => {
             return (
               <TodoItem
                 item={item}
                 deleteFunction={() => deleteTodoItem(item.id)}
-                completeFunction={() => completeTodoItem(index)}
+                completeFunction={() => {}}
               />
             );
           }}
