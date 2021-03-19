@@ -40,7 +40,6 @@ export const addTodo = todo => {
 };
 export const deleteTodo = id => {
   let toDo = realmInstance.objectForPrimaryKey('Todo', id);
-  console.error(toDo);
   try {
     realmInstance.beginTransaction();
     realmInstance.delete(toDo);

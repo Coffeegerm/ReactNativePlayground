@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {Text, SafeAreaView, StatusBar, FlatList} from 'react-native';
+import React from 'react';
+import {Text, SafeAreaView, StatusBar, FlatList, Button} from 'react-native';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
-import {addTodo, getTodosFromRealm, deleteTodo} from '../realm/todos.realm';
-import {connect} from 'react-redux';
+import {addTodo, deleteTodo} from '../realm/todos.realm';
+import {connect, useDispatch} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {todosSelector} from '../redux/rootStore';
+import {todosSelector, ADD_TODO} from '../redux/rootStore';
 
 const Todos = props => {
-  console.log(props.todos());
+  const dispatch = useDispatch();
   // Add a new item to the state
   function addTodoItem(_text) {
     addTodo({text: _text, complete: false});
@@ -29,6 +29,15 @@ const Todos = props => {
           backgroundColor: 'white',
         }}>
         <Text style={{fontSize: 36, fontWeight: 'bold'}}>Todo</Text>
+        <Button
+          title="Add Mock Todo"
+          onPress={() => {
+            dispatch({
+              type: ADD_TODO,
+              payload: {id: -11, text: 'Fake', complete: false},
+            });
+          }}
+        />
         <FlatList
           data={props.todos}
           keyExtractor={(item, index) => index.toString()}
@@ -49,6 +58,6 @@ const Todos = props => {
 };
 export default connect(
   createStructuredSelector({
-    todos: todosSelector,
+    todos: todosSelector(),
   }),
 )(Todos);

@@ -3,7 +3,7 @@ import {Text, TouchableOpacity} from 'react-native';
 
 export default function TodoItem(props) {
   // Update style according to props
-  let style = props.item.completed
+  let style = props.item.complete
     ? {
         textDecorationLine: 'line-through',
       }
