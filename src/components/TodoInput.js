@@ -27,7 +27,10 @@ export default function TodoInput(props) {
           alignItems: 'center',
           borderRadius: 8,
         }}
-        onPress={() => props.onPress(text)}>
+        onPress={() => {
+          setText('');
+          props.onPress(text);
+        }}>
         <Text style={{color: '#fafafa'}}>Add</Text>
       </TouchableOpacity>
     </View>
