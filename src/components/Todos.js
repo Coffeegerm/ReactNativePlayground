@@ -8,7 +8,6 @@ import {createStructuredSelector} from 'reselect';
 import {todosSelector, ADD_TODO} from '../redux/rootStore';
 
 const Todos = props => {
-  const dispatch = useDispatch();
   // Add a new item to the state
   function addTodoItem(_text) {
     addTodo({text: _text, complete: false});
@@ -32,10 +31,7 @@ const Todos = props => {
         <Button
           title="Add Mock Todo"
           onPress={() => {
-            dispatch({
-              type: ADD_TODO,
-              payload: {id: -11, text: 'Fake', complete: false},
-            });
+            addTodo({text: 'Fake', complete: false});
           }}
         />
         <FlatList
@@ -58,6 +54,6 @@ const Todos = props => {
 };
 export default connect(
   createStructuredSelector({
-    todos: todosSelector(),
+    todos: todosSelector,
   }),
 )(Todos);

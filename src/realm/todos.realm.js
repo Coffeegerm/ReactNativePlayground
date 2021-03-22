@@ -47,7 +47,5 @@ export const deleteTodo = id => {
   } catch (err) {
     // console.error(err);
     realmInstance.cancelTransaction();
-  } finally {
-    toDo = null;
   }
 };
