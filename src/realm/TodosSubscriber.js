@@ -2,37 +2,40 @@ import {getTodosFromRealm} from './todos.realm';
 import React, {useLayoutEffect} from 'react';
 import {View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {ADD_TODO, REMOVE_TODO, UPDATE_TODO} from '../redux/rootStore';
+import {ADD_TODO, SET_TODOS, UPDATE_TODO} from '../redux/rootStore';
 
 export const TodosSubscriber = () => {
   const provider = getTodosFromRealm();
   const dispatch = useDispatch();
   useLayoutEffect(() => {
-    console.log('running useLayoutEffect');
-    provider.forEach(val => {
-      dispatch({type: ADD_TODO, payload: val});
-    });
     provider.addListener((todos, changes) => {
       // watch for additions
       changes.insertions.forEach(index => {
         const insertedTodo = todos[index];
         if (insertedTodo) {
-          console.log(insertedTodo);
           dispatch({type: ADD_TODO, payload: insertedTodo});
         }
       });
 
       changes.deletions.forEach(index => {
-        const deletedTodo = todos[index];
-        console.log(todos);
-        console.log(deletedTodo);
-        // if (deletedTodo) {
-        //   console.log(deletedTodo);
-        //   dispatch({type: REMOVE_TODO, payload: deletedTodo.id});
-        // }
+        const allTodosNow = todos.map(val => ({
+          id: val.id,
+          text: val.text,
+          complete: val.complete,
+        }));
+        if (allTodosNow) {
+          dispatch({type: SET_TODOS, payload: allTodosNow});
+        }
+      });
+
+      changes.oldModifications.forEach(index => {
+        const todo = todos[index];
+        console.log('oldMods', index, todo);
       });
 
       changes.newModifications.forEach(index => {
+        const todo = todos[index];
+        console.log('newMods', index, todo);
         const modifiedTodo = todos[index];
         if (modifiedTodo) {
           console.log(modifiedTodo);
@@ -40,6 +43,6 @@ export const TodosSubscriber = () => {
         }
       });
     });
-  }, []);
+  }, [provider, dispatch]);
   return <View />;
 };

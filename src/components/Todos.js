@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, SafeAreaView, StatusBar, FlatList, Button} from 'react-native';
+import {Text, SafeAreaView, StatusBar, FlatList} from 'react-native';
 import TodoInput from './TodoInput';
 import TodoItem from './TodoItem';
 import {addTodo, deleteTodo} from '../realm/todos.realm';
-import {connect, useDispatch} from 'react-redux';
+import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {todosSelector, ADD_TODO} from '../redux/rootStore';
+import {todosSelector} from '../redux/rootStore';
 
 const Todos = props => {
   // Add a new item to the state
@@ -28,12 +28,6 @@ const Todos = props => {
           backgroundColor: 'white',
         }}>
         <Text style={{fontSize: 36, fontWeight: 'bold'}}>Todo</Text>
-        <Button
-          title="Add Mock Todo"
-          onPress={() => {
-            addTodo({text: 'Fake', complete: false});
-          }}
-        />
         <FlatList
           data={props.todos}
           keyExtractor={(item, index) => index.toString()}
